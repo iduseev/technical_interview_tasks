@@ -19,3 +19,6 @@ if __name__ == "__main__":
     l = []
     print(sys.getsizeof(l))
     
+    t = ()
+    print(f"t is of type <{type(t)}>")
+    print(sys.getsizeof(t))

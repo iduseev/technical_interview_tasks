@@ -20,11 +20,8 @@ Returns the average time it takes to travel from startStation to endStation.
 
 
 The average time is computed from all the previous traveling times from startStation to endStation that happened directly, meaning a check-in at startStation followed by a check-out from endStation.
-
 The time it takes to travel from startStation to endStation may be different from the time it takes to travel from endStation to startStation.
-
 There will be at least one customer that has traveled from startStation to endStation before getAverageTime is called.
-
 You may assume all calls to the checkIn and checkOut methods are consistent. If a customer checks in at time t1 then checks out at time t2, then t1 < t2. All events happen in chronological order.
 
 UndergroundSystem undergroundSystem = new UndergroundSystem();
@@ -55,19 +52,26 @@ class Customer:
 class UndergroundSystem:
 
     def __init__(self):
-        self.id: int
-        self.station_name: str
-        self.container: dict[str: list] = {}
+        self.avg_time_storage: dict[str, list[int]] = {}
+        self.trip_storage: dict[int, dict[str, int]] = {}
 
     def checkIn(self, id: int, station_name: str, t: int):
         """
-        A customer with a card ID equal to id, checks in at the station stationName at time t. A customer can only be checked into one place at a time.
+        A customer with a card ID equal to id, checks in at the station station_name at time t. A customer can only be checked into one place at a time.
+        """
+        self.trip_storage[id]["checkIn"] = t
+
+
+    def checkOut(self, id: int, station_name: str, t: int):
+        """
+        A customer with a card ID equal to id, checks out from the station station_name at time t.
         """
         pass
 
-    def checkOut(self, id: int, station_name: str, t: int):
-        pass
-
     def getAverageTime(self, start_station_name: str, end_station_name: str) -> int:
-        temp = []
-        self.container[f"{start_station_name}+{end_station_name}"].append()
+        """
+        Returns the average time it takes to travel from start_station_name to end_station_name.
+        """
+        if not self.avg_time_storage[f"{start_station_name}+{end_station_name}"]:
+            self.avg_time_storage[f"{start_station_name}+{end_station_name}"] = []
+        self.avg_time_storage[f"{start_station_name}+{end_station_name}"].append()
